@@ -79,6 +79,7 @@ annual_SL_tide_df <- annual_SL_tide_df %>%
   #Weird outliers
   #filter(RSL > -4000) %>%  # Site in Cyprus -4244mm
   #filter(RSL < 2800) # Site in Russia 2830mm
+
 write.csv(annual_SL_tide_df,"annual_monthly_SL_tide_df.csv")
 #--Plotting Tidal gauge data---
 full_data_plot <- ggplot()+
