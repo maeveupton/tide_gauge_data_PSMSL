@@ -3,7 +3,7 @@
 #--Annual Data---
 rm(list = ls())
 # Set Directory
-setwd("/Users/mupton/Dropbox/Maeve U Sea Level Data/tidal_gauge_data")
+setwd("/Users/mupton/Desktop/Github/tide_gauge_data_PSMSL")
 library(tidyverse)
 library(data.table)
 
@@ -70,10 +70,10 @@ annual_SL_tide_df <-merge(SL_df,file_list,by = "id",all = TRUE)
 #-- Removing sites which have a station flag raised as they are poor sites---
 annual_SL_tide_df <- annual_SL_tide_df %>%
   filter(!stationflag == "Y") %>% 
-  drop_na() %>% 
-  # Jump of a metre in a year?
-  filter(RSL > -4000) %>%  # Site in Cyprus -4244mm
-  filter(RSL < 2800) # Site in Russia 2830mm
+  drop_na() #%>% 
+  # Weird Outlier sites
+  #filter(RSL > -4000) %>%  # Site in Cyprus -4244mm
+  #filter(RSL < 2800) # Site in Russia 2830mm
 
 write.csv(annual_SL_tide_df,"annual_SL_tide_df.csv")
 
