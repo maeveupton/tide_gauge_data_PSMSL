@@ -41,7 +41,7 @@ SL_df_site_1_2 <- SL_df_site_1_2 %>%  filter(!stationflag == "Y")
 #---Averaging monthly RSL values---
 SL_df_site_1_2_average <- SL_df_site_1_2 %>% 
   group_by(Age) %>% 
-  mutate(RSL = mean(RSL))
+  summarise(RSL = mean(RSL))
 #---Removing the offset of 7000mm---
 SL_df_site_1_2$RSL <- SL_df_site_1_2$RSL - 7000
 #--Plotting 2 sites----
@@ -90,11 +90,16 @@ full_data_plot
 
 #--Global Mean Sea Level---
 gmsl_tidal_gauge <- annual_SL_tide_df %>% 
+  mutate(Age = round(Age,digits=0)) %>% 
   group_by(Age) %>% 
   summarise(RSL = mean(RSL))
 gmsl_plot <- 
   ggplot()+
   geom_line(data = gmsl_tidal_gauge, aes(x = Age, y = RSL))+
-  theme(legend.position="none")
+  theme(legend.position="none")+
+  ggtitle("Global Mean Sea Level from PSMSL Tide Gauge Data")+
+  xlab("Age (CE)")+
+  ylab("RSL (mm)")+
+  theme_bw()
 #facet_wrap(~id)
 gmsl_plot
