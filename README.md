@@ -5,7 +5,8 @@
 The data from PSMSL website requires updates. Firstly, annual data records tend to be shorter as there are strict filtering conditions in place, as such, sites where data is missing for one month in a year are removed. This maybe be too strict for your use. As a result, monthly data is prefered and means are taken by year to create an updated annual records. In addition, the data has a 7000 mm offset that needs to be removed. Another important note is that data where the value is 9999 means that it is an NA value.
 
 # Historical Tide Gauge Datasets missing from PSMSL 
-Stockholm dataset begins in 1774CE and collected my Martin Ekman. 
+There are a number of tide gauge datasets missing from PSMSL. I have collected them into the historic_tide_gauge_datasets folder and included a reference here.
+1. Stockholm dataset begins in 1774CE and collected my Martin Ekman. 
 https://link.springer.com/content/pdf/10.1007/BF00878691.pdf
 
 
