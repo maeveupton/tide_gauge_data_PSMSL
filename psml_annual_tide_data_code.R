@@ -40,11 +40,11 @@ SL_df_site_1_2<- SL_df_site_1_2 %>%  drop_na()
 SL_df_site_1_2 <- SL_df_site_1_2 %>%  filter(!stationflag == "Y")
 #---Removing the offset of 7000mm---
 SL_df_site_1_2$RSL <- SL_df_site_1_2$RSL - 7000
-#--Plotting 2 sites----
-test_plot <- ggplot()+
-  geom_point(data = SL_df_site_1_2, aes(x = Age, y = RSL))+
-  facet_wrap(~id)
-test_plot
+# #--Plotting 2 sites----
+# test_plot <- ggplot()+
+#   geom_point(data = SL_df_site_1_2, aes(x = Age, y = RSL))+
+#   facet_wrap(~id)
+# test_plot
 
 ###------------Loop to open all RSL & Age data files------------
 read_plus <- function(flnm) {
@@ -62,8 +62,8 @@ temp_SL<-
 colnames(temp_SL) = c("Age","RSL","flag_attention_1","flag_attention_2","id")
 SL_df <- temp_SL %>% 
   mutate(id = str_extract(id,"[0-9]+")) %>% # pulling out the file number from string
-  filter(!RSL== -99999) %>%  # Cases where bad data was collected
-  mutate(RSL = RSL- 7000) # Removing the offset. RSL in mm 
+  filter(!RSL== -99999) #%>%  # Cases where bad data was collected
+  #mutate(RSL = RSL- 7000) # Removing the offset. RSL in mm -- This offset is not right
 
 #--Joining SL data with location names--
 annual_SL_tide_df <-merge(SL_df,file_list,by = "id",all = TRUE)
@@ -78,11 +78,11 @@ annual_SL_tide_df <- annual_SL_tide_df %>%
 write.csv(annual_SL_tide_df,"annual_SL_tide_df.csv")
 
 #--Plotting Tidal gauge data---
-full_data_plot <- ggplot()+
-  geom_line(data = annual_SL_tide_df, aes(x = Age, y = RSL,colour = name))+
-  theme(legend.position="none")#+
-  #facet_wrap(~id)
-full_data_plot
+# full_data_plot <- ggplot()+
+#   geom_line(data = annual_SL_tide_df, aes(x = Age, y = RSL,colour = name))+
+#   theme(legend.position="none")#+
+#   #facet_wrap(~id)
+# full_data_plot
 
 #--Global Mean Sea Level---
 gmsl_tidal_gauge <- annual_SL_tide_df %>% 
