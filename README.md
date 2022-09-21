@@ -6,8 +6,17 @@ The data from PSMSL website requires updates. Firstly, annual data records tend 
 
 # Historical Tide Gauge Datasets missing from PSMSL 
 There are a number of tide gauge datasets missing from PSMSL. I have collected them into the historic_tide_gauge_datasets folder and included a reference here.
-1. Stockholm dataset begins in 1774CE and collected my Martin Ekman. 
+1. Stockholm dataset begins in 1774CE ends in 1888CE and collected my Martin Ekman. 
 https://link.springer.com/content/pdf/10.1007/BF00878691.pdf
+2. Honolu begins in 1872 till 1904 CE
+3. Amsterdam begins in 1700 CE till 1871CE
+4. Keywest begins in 1846 CE till 1912 CE (a lot of missing data)
+5. Boston begins in 1825 CE till 1920 (a lot of missing data)
+6. Brest begins in 1711 CE till 1790 CE
+7. Kronstadt begins in 1777 CE till 1993CE
+8. Liverpool begins in 1768 till 1990 CE
+9. Sydney begins in 1873 till 2013
+
 
 
 # To Do:
