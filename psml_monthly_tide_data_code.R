@@ -66,7 +66,7 @@ colnames(temp_SL) = c("Age","RSL","flag_attention_1","flag_attention_2","id")
 SL_df <- temp_SL %>% 
   mutate(id = str_extract(id,"[0-9]+")) %>% # pulling out the file number from string
   filter(!RSL== -99999) %>%  # Cases where bad data was collected
-  #mutate(RSL = RSL- 7000) %>% # Removing the offset. RSL in mm -- This is not always correct
+  mutate(RSL = RSL- 7000) %>% # Removing the offset. RSL in mm -- This is not always correct
   group_by(Age,id) %>% # Getting the mean RSL value for each year
   mutate(RSL = mean(RSL))
 

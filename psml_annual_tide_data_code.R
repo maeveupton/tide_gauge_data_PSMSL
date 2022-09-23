@@ -62,8 +62,8 @@ temp_SL<-
 colnames(temp_SL) = c("Age","RSL","flag_attention_1","flag_attention_2","id")
 SL_df <- temp_SL %>% 
   mutate(id = str_extract(id,"[0-9]+")) %>% # pulling out the file number from string
-  filter(!RSL== -99999) #%>%  # Cases where bad data was collected
-  #mutate(RSL = RSL- 7000) # Removing the offset. RSL in mm -- This offset is not right
+  filter(!RSL== -99999) %>%  # Cases where bad data was collected
+  mutate(RSL = RSL- 7000) # Removing the offset. RSL in mm -- This offset is not right
 
 #--Joining SL data with location names--
 annual_SL_tide_df <-merge(SL_df,file_list,by = "id",all = TRUE)
