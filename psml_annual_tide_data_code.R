@@ -40,6 +40,7 @@ SL_df_site_1_2<- SL_df_site_1_2 %>%  drop_na()
 SL_df_site_1_2 <- SL_df_site_1_2 %>%  filter(!stationflag == "Y")
 #---Removing the offset of 7000mm---
 SL_df_site_1_2$RSL <- SL_df_site_1_2$RSL - 7000
+
 # #--Plotting 2 sites----
 test_plot <- ggplot()+
   geom_point(data = SL_df_site_1_2, aes(x = Age, y = RSL))+
@@ -57,17 +58,31 @@ temp_SL<-
              pattern = "*.rlrdata", 
              full.names = T) %>% 
   map_df(~read_plus(.)) %>%  as.tibble()
-# Warnings there are some files without data
-
+# Warnings: there are some files without data
 colnames(temp_SL) = c("Age","RSL","flag_attention_1","flag_attention_2","id")
+
 SL_df <- temp_SL %>% 
+  #mutate(id = as.factor(str_extract(id,"[0-9]+"))) %>% # pulling out the file number from string
   mutate(id = str_extract(id,"[0-9]+")) %>% # pulling out the file number from string
-  filter(!RSL== -99999) #%>%  # Cases where bad data was collected
-  #mutate(RSL = RSL- 7000) # Removing the offset. RSL in mm -- This offset is not right
+  filter(!RSL== -99999) %>%  # Cases where bad data was collected
+  # mutate(RSL = RSL - 7000) # Offset
+  group_by(id) %>% #2000-2018 used as the tidal epoch
+  mutate(Age_epoch_id = ifelse(between(Age,2000,2018),TRUE,FALSE))
 
-#-- Reference frame calculation for USA (may change for later use)---
-#SL_df %>%  filter(Age )
+#--- Removing offset based on the location---
+# Offset value is the mean of RSL over the tidal epoch
+# Setting 2000-2018 as the tidal epoch
+Age_epoch_ref <-  SL_df %>% 
+  dplyr::select(RSL,Age_epoch_id) %>% 
+  filter(Age_epoch_id == TRUE) %>% 
+  summarise(RSL_offset  = unique(mean(RSL)))
 
+SL_df <- merge(SL_df,Age_epoch_ref,by = "id",all=TRUE)
+# Cases where no data between 2000-2018 set the offset to 7000
+SL_df$RSL_offset[is.na(SL_df$RSL_offset)] <- 7000
+# Updating the RSL to the shifted RSL value 
+SL_df$RSL <- SL_df$RSL - SL_df$RSL_offset
+  
 #--Joining SL data with location names--
 annual_SL_tide_df <-merge(SL_df,file_list,by = "id",all = TRUE)
 #-- Removing sites which have a station flag raised as they are poor sites---
