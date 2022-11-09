@@ -80,8 +80,9 @@ Age_epoch_ref <-  SL_df %>%
 SL_df <- merge(SL_df,Age_epoch_ref,by = "id",all=TRUE)
 # Cases where no data between 2000-2018 set the offset to 7000
 SL_df$RSL_offset[is.na(SL_df$RSL_offset)] <- 7000
+
 # Updating the RSL to the shifted RSL value 
-SL_df$RSL <- SL_df$RSL - SL_df$RSL_offset
+#SL_df$RSL <- SL_df$RSL - SL_df$RSL_offset
   
 #--Joining SL data with location names--
 annual_SL_tide_df <-merge(SL_df,file_list,by = "id",all = TRUE)
